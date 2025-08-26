@@ -76,64 +76,18 @@
             margin-bottom: 30px;
         }
 
-        .qr-code-image {
-            width: 100%;
-            max-width: 260px;
-            height: auto;
-            display: block;
-            margin: 20px auto;
-            border-radius: var(--card-border-radius);
-            border: 1px solid var(--border-color);
-            box-shadow: 0 0 10px rgba(59, 130, 246, 0);
-            animation: pulseGlow 4s infinite ease-in-out;
-        }
-
-        @keyframes pulseGlow {
-            0%, 100% { box-shadow: 0 0 10px rgba(59, 130, 246, 0), 0 0 0 1px var(--border-color); }
-            50% { box-shadow: 0 0 25px rgba(59, 130, 246, 0.4), 0 0 0 1px var(--accent-color); }
-        }
-        
-        /* New Styles for Copy Section */
-        .copy-section {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            background-color: var(--background-color);
-            border: 1px solid var(--border-color);
-            border-radius: 8px;
-            padding: 10px 15px;
-            margin-bottom: 40px;
-        }
-
+        /* Updated styles for displaying full config text */
         .config-text {
             font-family: 'Fira Code', monospace;
             font-size: 0.8em;
             color: var(--text-secondary-color);
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
+            white-space: pre-wrap;    /* Allow text to wrap if needed */
+            word-wrap: break-word;    /* Break long words to avoid overflow */
             margin-right: 15px;
             text-align: left;
+            overflow-wrap: break-word;  /* Ensures long words break onto new lines */
         }
 
-        .copy-btn {
-            background: transparent;
-            border: 1px solid var(--border-color);
-            color: var(--text-secondary-color);
-            padding: 8px 12px;
-            border-radius: 6px;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            gap: 6px;
-            transition: all 0.2s ease;
-            white-space: nowrap; /* Prevent button text from wrapping */
-        }
-        .copy-btn:hover {
-            border-color: var(--accent-color);
-            color: var(--accent-color);
-        }
-        
         hr.divider {
             border: none;
             height: 1px;
@@ -212,37 +166,32 @@
         footer .fa-github {
             margin-right: 6px;
         }
-
     </style>
 </head>
 <body>
     <div class="container">
         <div class="brand-icon">
-            <i class="fa-solid  fa-earth-americas"></i>
+            <i class="fa-solid fa-earth-americas"></i>
         </div>
         <h1>Shadowsocks + V2Ray</h1>
         <p class="subtitle">Your private and secure gateway to the internet. Scan to connect instantly.</p>
         
         <img src="./vpn/vpn.png" alt="VPN Connect QR Code" class="qr-code-image">
-
-        <div class="copy-section">
-            <div id="configString" class="config-text"></div> <button id="copyButton" class="copy-btn" onclick="copyConfig()">
-                <i class="fa-regular fa-copy"></i>
-                <span>Copy</span>
-            </button>
-        </div>
+        
+        <!-- Show the config string text here -->
+        <div class="config-text" id="configString"></div>
 
         <hr class="divider">
 
         <div class="links-section">
-            <h2>Download Your Apps</h2>
+            <h2>Download Apps</h2>
             <ul class="links-grid">
                 <li>
                     <a href="https://github.com/shadowsocks/shadowsocks-android" target="_blank" rel="noopener noreferrer">
                         <i class="fab fa-android icon"></i> Client
                     </a>
                 </li>
-                 <li>
+                <li>
                     <a href="https://github.com/shadowsocks/v2ray-plugin-android" target="_blank" rel="noopener noreferrer">
                         <i class="fa-solid fa-puzzle-piece icon"></i> Plugin
                     </a>
@@ -266,29 +215,5 @@
             </a>
         </footer>
     </div>
-
-    <script>
-        function copyConfig() {
-            const configText = document.getElementById('configString').textContent;
-            const copyButton = document.getElementById('copyButton');
-
-            // Use the modern Clipboard API
-            navigator.clipboard.writeText(configText).then(() => {
-                // Success feedback
-                copyButton.innerHTML = '<i class="fa-solid fa-check"></i> <span>Copied!</span>';
-                setTimeout(() => {
-                    // Revert back after 2 seconds
-                    copyButton.innerHTML = '<i class="fa-regular fa-copy"></i> <span>Copy</span>';
-                }, 2000);
-            }).catch(err => {
-                console.error('Failed to copy text: ', err);
-                // Optional: Provide error feedback to the user
-                copyButton.innerHTML = '<span>Error</span>';
-                 setTimeout(() => {
-                    copyButton.innerHTML = '<i class="fa-regular fa-copy"></i> <span>Copy</span>';
-                }, 2000);
-            });
-        }
-    </script>
 </body>
 </html>
